@@ -15,7 +15,12 @@ function App() {
         {id:v1(),title:'Phone nomber',isDone:true},
         {id:v1(),title:'English and Programming',isDone:false},
     ])
-    const [filterValueActiv,SetFilterValueActiv]=useState<ValueFilterType>('all')
+    const [filterValueActiv,SetFilterValueActiv] = useState<ValueFilterType>('all')
+
+    const changeTaskCheckbox = (idTask: string,valueIsDone:boolean) => {
+        SetTasks(tasks.map(e=>e.id===idTask
+        ?{...e,isDone: valueIsDone}:e))
+    }
 
     const addedNewTask = (textInput:string) => {
       const newTask={id:v1(),title:textInput,isDone:false}
@@ -39,6 +44,8 @@ function App() {
         <div className="App">
 
     <Todolist
+        filterValueActiv={filterValueActiv}
+        changeTaskCheckbox={changeTaskCheckbox}
         addedNewTask={addedNewTask}
         changeFilter={changeFilter}
         removeTask={removeTask}
