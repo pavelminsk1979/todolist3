@@ -1,31 +1,37 @@
 import React, {ChangeEvent, useState, KeyboardEvent} from "react";
-import {TasksStateType} from "./App";
+import {TasksType} from "./App";
 import st from './Todolist.module.css'
 
 type TodolistType = {
     title: string
-    filterTasksState: Array<TasksStateType>
-    removeTask: (idTask: string) => void
-    changeFilter: (valueFilter: ValueFilterType) => void
-    addedNewTask: (textInput: string) => void
-    changeTaskCheckbox:(idTask: string,valueIsDone:boolean)=>void
+    filterTasksState: Array<TasksType>
+    removeTask: (todoID: string,idTask: string) => void
+    changeFilter: (todoID:string,valueFilter: ValueFilterType) => void
+    addedNewTask: (todoID: string,textInput: string) => void
+    changeTaskCheckbox:(todoID:string,idTask: string,valueIsDone:boolean)=>void
     filterValueActiv:ValueFilterType
+    todoID:string
+    deleteTololist:(todoID:string,)=>void
 }
 
 export type ValueFilterType = 'all' | 'active' | 'completed'
 
 
-export const Todolist = ({title, filterTasksState, removeTask, changeFilter, addedNewTask,changeTaskCheckbox,filterValueActiv}: TodolistType) => {
+export const Todolist = ({title, filterTasksState, removeTask, changeFilter, addedNewTask,changeTaskCheckbox,filterValueActiv,todoID,deleteTololist}: TodolistType) => {
 
     const [textInput, SetTextInput] = useState('')
     const [errorNullText,setErrorNullText]=useState(false)
 
+    const deleteTololistHundler=()=>{
+        deleteTololist(todoID)
+    }
+
     const removeTaskHandler = (idTask: string) => {
-        removeTask(idTask)
+        removeTask(todoID,idTask)
     }
 
     const battonFilterHandler = (valueFilter: ValueFilterType) => {
-        changeFilter(valueFilter)
+        changeFilter(todoID,valueFilter)
     }
 
     const creatingTextInputHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -35,7 +41,7 @@ export const Todolist = ({title, filterTasksState, removeTask, changeFilter, add
 
     const addedNewTaskHandler = () => {
         if (textInput.trim() != '') {
-            addedNewTask(textInput.trim().toUpperCase().repeat(2))
+            addedNewTask(todoID,textInput.trim().toUpperCase().repeat(2))
             SetTextInput('')
         } else {setErrorNullText(true)}
 
@@ -48,13 +54,19 @@ export const Todolist = ({title, filterTasksState, removeTask, changeFilter, add
     }
 
     const changeTaskCheckboxHandler = (idTask: string,valueIsDone:boolean) => {
-        changeTaskCheckbox(idTask,valueIsDone)
+        changeTaskCheckbox(todoID,idTask,valueIsDone)
     }
 
 
     return (
         <div>
-            <h3>{title}</h3>
+            <h3>{title}
+                <button
+                    onClick={deleteTololistHundler}
+                    className={st.butDelTodolist}
+                >DEL</button>
+            </h3>
+
             <div>
                 <input
                     className={errorNullText?st.frameInput:''}
