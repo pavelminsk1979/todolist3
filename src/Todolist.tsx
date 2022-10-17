@@ -1,6 +1,8 @@
-import React, {ChangeEvent, useState, KeyboardEvent} from "react";
+import React from "react";
 import {TasksType} from "./App";
 import st from './Todolist.module.css'
+import {TemplateForCreatingItem} from "./TemplateForCreatingItem";
+import {TemplateForEditItem} from "./TemplateForEditItem";
 
 type TodolistType = {
     title: string
@@ -11,16 +13,23 @@ type TodolistType = {
     changeTaskCheckbox:(todoID:string,idTask: string,valueIsDone:boolean)=>void
     filterValueActiv:ValueFilterType
     todoID:string
-    deleteTololist:(todoID:string,)=>void
+    deleteTololist:(todoID:string)=>void
+    editTitleTodolist:(todoID:string,editText:string)=>void
+    editTitleTask:(todoID:string,idTask: string,editText:string)=>void
 }
 
 export type ValueFilterType = 'all' | 'active' | 'completed'
 
 
-export const Todolist = ({title, filterTasksState, removeTask, changeFilter, addedNewTask,changeTaskCheckbox,filterValueActiv,todoID,deleteTololist}: TodolistType) => {
+export const Todolist = ({title, filterTasksState, removeTask, changeFilter, addedNewTask,changeTaskCheckbox,filterValueActiv,todoID,deleteTololist,editTitleTodolist,editTitleTask}: TodolistType) => {
 
-    const [textInput, SetTextInput] = useState('')
-    const [errorNullText,setErrorNullText]=useState(false)
+    const editTitleTaskHundler=(idTask: string,editText:string)=>{
+        editTitleTask(todoID,idTask,editText)
+    }
+
+    const editTitleTodolistHundler = (editText:string) => {
+        editTitleTodolist(todoID,editText)
+    }
 
     const deleteTololistHundler=()=>{
         deleteTololist(todoID)
@@ -34,23 +43,8 @@ export const Todolist = ({title, filterTasksState, removeTask, changeFilter, add
         changeFilter(todoID,valueFilter)
     }
 
-    const creatingTextInputHandler = (event: ChangeEvent<HTMLInputElement>) => {
-        SetTextInput(event.currentTarget.value)
-        setErrorNullText(false)
-    }
-
-    const addedNewTaskHandler = () => {
-        if (textInput.trim() != '') {
-            addedNewTask(todoID,textInput.trim().toUpperCase().repeat(2))
-            SetTextInput('')
-        } else {setErrorNullText(true)}
-
-    }
-
-    const clickEnterAddedTaskHandler = (event: KeyboardEvent<HTMLInputElement>) => {
-        if (event.key === 'Enter') {
-            addedNewTaskHandler()
-        }
+    const addedNewTaskHandler = (textInput: string) => {
+        addedNewTask(todoID,textInput)
     }
 
     const changeTaskCheckboxHandler = (idTask: string,valueIsDone:boolean) => {
@@ -60,28 +54,21 @@ export const Todolist = ({title, filterTasksState, removeTask, changeFilter, add
 
     return (
         <div>
-            <h3>{title}
+            <h3>
+                <TemplateForEditItem
+                  callback={editTitleTodolistHundler}
+                title={title}
+                />
                 <button
                     onClick={deleteTololistHundler}
                     className={st.butDelTodolist}
                 >DEL</button>
             </h3>
 
-            <div>
-                <input
-                    className={errorNullText?st.frameInput:''}
-                    onKeyPress={clickEnterAddedTaskHandler}
-                    value={textInput}
-                    onChange={creatingTextInputHandler}
-                />
-                <button
-                    className={errorNullText?st.buttonRedNullText:''}
-                    onClick={addedNewTaskHandler}
-                >creating
-                </button>
-            </div>
-            {errorNullText&&<div className={st.allert}>
-            НЕОБХОДИМ И ОБСАЛЮТНО ОБЯЗАТЕЛЕН ТЕКСТ </div>}
+            <TemplateForCreatingItem
+            callback={addedNewTaskHandler}
+            />
+
             <div>
                 {
                     filterTasksState.map(elTask => {
@@ -92,7 +79,12 @@ export const Todolist = ({title, filterTasksState, removeTask, changeFilter, add
                                         elTask.id,event.currentTarget.checked)}}
                                     type='checkbox'
                                     checked={elTask.isDone}/>
-                                <span>{elTask.title}</span>
+                                <TemplateForEditItem
+                                    callback={(editText:string) => {
+                                        editTitleTaskHundler(elTask.id,editText)}}
+                                title={elTask.title}
+                                />
+                                {elTask.title}
                                 <button
                                     className={st.removeButton}
                                     onClick={() => {

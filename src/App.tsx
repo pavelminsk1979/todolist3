@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import './App.css';
 import {Todolist, ValueFilterType} from "./Todolist";
 import {v1} from "uuid";
+import {TemplateForCreatingItem} from "./TemplateForCreatingItem";
 
 export type TasksType = {
     id: string,
@@ -44,6 +45,21 @@ function App() {
         ],
     })
 
+    const editTitleTask = (todoID:string,idTask: string,editText:string) => {
+        SetTasks({...tasks,[todoID]:tasks[todoID].map(e=>e.id===idTask
+            ?{...e,title:editText}:e)})
+    }
+
+    const editTitleTodolist = (todoID:string,editText:string) => {
+        setTodolists(todolists.map(e=>e.id===todoID?{...e,title:editText}:e))
+    }
+
+    const addedNewTodolist = (textInput: string) => {
+        const newIdTodolist=v1()
+        setTodolists([{id:newIdTodolist,title:textInput,filter:'all'},...todolists])
+        SetTasks({[newIdTodolist]:[],...tasks})
+    }
+
     const deleteTololist = (todoID:string,) => {
         setTodolists(todolists.filter(e=>e.id!==todoID))
         delete tasks[todoID]
@@ -76,6 +92,11 @@ function App() {
 
     return (
         <div className="App">
+
+            <TemplateForCreatingItem
+                callback={addedNewTodolist}
+            />
+
             {
                 todolists.map(tod => {
 
@@ -89,6 +110,8 @@ function App() {
 
                     return (
                         <Todolist
+                            editTitleTask={editTitleTask}
+                            editTitleTodolist={editTitleTodolist}
                             deleteTololist={deleteTololist}
                             todoID={tod.id}
                             key={tod.id}
