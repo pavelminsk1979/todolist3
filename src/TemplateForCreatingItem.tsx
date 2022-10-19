@@ -1,5 +1,7 @@
 import st from "./Todolist.module.css";
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
+import {BootstrapButton} from "./MaterialUiCommon/FilterButton";
+import {TextField} from "@mui/material";
 
 type TemplateForCreatingItemType={
   callback:(textInput: string)=>void
@@ -31,17 +33,23 @@ export const TemplateForCreatingItem = ({callback}:TemplateForCreatingItemType) 
 
   return(
       <div>
-        <input
+        <TextField
             className={errorNullText?st.frameInput:''}
             onKeyPress={clickEnterAddedTaskHandler}
             value={textInput}
             onChange={creatingTextInputHandler}
-        />
-        <button
-            className={errorNullText?st.buttonRedNullText:''}
-            onClick={addedNewTaskHandler}
-        >creating
-        </button>
+            size={"small"}
+            id="outlined-basic"
+            variant="outlined" />
+
+          <BootstrapButton
+              size="small"
+              variant="contained"
+              onClick={addedNewTaskHandler}
+          >
+              creating
+          </BootstrapButton>
+
         {errorNullText&&<div className={st.allert}>
           НЕОБХОДИМ И ОБСАЛЮТНО ОБЯЗАТЕЛЕН ТЕКСТ </div>}
       </div>

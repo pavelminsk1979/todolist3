@@ -3,6 +3,9 @@ import {TasksType} from "./App";
 import st from './Todolist.module.css'
 import {TemplateForCreatingItem} from "./TemplateForCreatingItem";
 import {TemplateForEditItem} from "./TemplateForEditItem";
+import {BootstrapButton} from "./MaterialUiCommon/FilterButton";
+import {IconButton} from "@mui/material";
+import {Cancel, RestoreFromTrash} from "@mui/icons-material";
 
 type TodolistType = {
     title: string
@@ -59,10 +62,14 @@ export const Todolist = ({title, filterTasksState, removeTask, changeFilter, add
                   callback={editTitleTodolistHundler}
                 title={title}
                 />
-                <button
-                    onClick={deleteTololistHundler}
-                    className={st.butDelTodolist}
-                >DEL</button>
+
+                <IconButton
+                    color={'primary'}
+                    size={"large"}
+                    onClick={deleteTololistHundler}>
+                    <RestoreFromTrash/>
+                </IconButton>
+
             </h3>
 
             <TemplateForCreatingItem
@@ -97,12 +104,30 @@ export const Todolist = ({title, filterTasksState, removeTask, changeFilter, add
                 }
             </div>
             <div>
-                <button className={filterValueActiv=='all'?st.buttonFilterActive:st.buttonFilterNotActive}
-                    onClick={() => battonFilterHandler('all')}>ALL</button>
-                <button className={filterValueActiv=='active'?st.buttonFilterActive:st.buttonFilterNotActive}
-                    onClick={() => battonFilterHandler('active')}>ACTIVE</button>
-                <button className={filterValueActiv=='completed'?st.buttonFilterActive:st.buttonFilterNotActive}
-                    onClick={() => battonFilterHandler('completed')}>COMPLETED</button>
+                <BootstrapButton
+                    size="small"
+                    onClick={() => battonFilterHandler('all')}
+                    variant="contained"
+                    disableRipple>
+                    ALL
+                </BootstrapButton>
+
+                <BootstrapButton
+                    size="small"
+                    onClick={() => battonFilterHandler('active')}
+                    variant="contained"
+                    disableRipple>
+                    ACTIVE
+                </BootstrapButton>
+
+                <BootstrapButton
+                    size="small"
+                    onClick={() => battonFilterHandler('completed')}
+                    variant="contained"
+                    disableRipple>
+                    COMPLETED
+                </BootstrapButton>
+
             </div>
         </div>
     )

@@ -1,4 +1,5 @@
 import {ChangeEvent, useState} from "react";
+import {TextField} from "@mui/material";
 
 type TemplateForEditItemType={
   title:string
@@ -26,10 +27,13 @@ export const TemplateForEditItem = (props:TemplateForEditItemType) => {
   return(
       toggle
       ?<span onDoubleClick={onDoubleClickHandler}>{props.title}</span>
-          : <input
-          autoFocus
-          onBlur={addedEditTextHandler}
-          onChange={inputOnChangeHandler}
-              value={editText} />
+          : <TextField
+              autoFocus
+              onBlur={addedEditTextHandler}
+              onChange={inputOnChangeHandler}
+              value={editText}
+              id="standard-basic"
+              variant="standard" />
+
   )
 }
