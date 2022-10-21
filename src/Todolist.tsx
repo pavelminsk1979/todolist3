@@ -5,7 +5,7 @@ import {TemplateForCreatingItem} from "./TemplateForCreatingItem";
 import {TemplateForEditItem} from "./TemplateForEditItem";
 import {BootstrapButton} from "./MaterialUiCommon/FilterButton";
 import {IconButton} from "@mui/material";
-import {Cancel, RestoreFromTrash} from "@mui/icons-material";
+import { RestoreFromTrash} from "@mui/icons-material";
 
 type TodolistType = {
     title: string

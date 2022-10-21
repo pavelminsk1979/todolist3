@@ -12,7 +12,7 @@ export type TasksType = {
     isDone: boolean
 }
 
-type TodolistState = {
+export type TodolistState = {
     id: string
     title: string
     filter: ValueFilterType
