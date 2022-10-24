@@ -29,7 +29,7 @@ switch (action.type){
 
 
 
-type removeTodolistACType=ReturnType<typeof removeTodolistAC>
+export type removeTodolistACType=ReturnType<typeof removeTodolistAC>
 
 export const removeTodolistAC = (idTodolist:string) => {
   return{
@@ -38,13 +38,13 @@ export const removeTodolistAC = (idTodolist:string) => {
   }as const
 }
 
-type addedTodolistACType=ReturnType<typeof addedTodolistAC>
+export type addedTodolistACType=ReturnType<typeof addedTodolistAC>
 
 export const addedTodolistAC = (newTitleForTodolist:string) => {
-    const idNewTodolist=v1()
+
   return{
       type:'ADDED-TODOLIST',
-      idNewTodolist,
+      idNewTodolist:v1(),
       newTitleForTodolist
   }as const
 }
