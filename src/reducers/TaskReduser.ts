@@ -4,7 +4,9 @@ import {v1} from "uuid";
 
 type CommonActionType=DeleteTaskType|AddedTaskType|ChangeStatusTaskACType|ChangeTitleTaskACType|addedTodolistACType|removeTodolistACType
 
-export const taskReduser = (state:TaskStateType,action:CommonActionType) => {
+const initialState:TaskStateType={}
+
+export const taskReduser = (state:TaskStateType=initialState,action:CommonActionType) => {
   switch (action.type){
       case 'DELETE-TASK':{
           return {...state,[action.idTodol]:state[action.idTodol].filter(

@@ -5,7 +5,9 @@ import {ValueFilterType} from "../Todolist";
 
 type TodolistReduserType=removeTodolistACType|addedTodolistACType|changeTitleTodolistACType|changeFilterTodolistACType
 
-export const TodolistReducer = (state:TodolistState[],action:TodolistReduserType):TodolistState[] => {
+const initialState:TodolistState[] = []
+
+export const TodolistReducer = (state:TodolistState[]=initialState,action:TodolistReduserType):TodolistState[] => {
 switch (action.type){
     case 'REMOVE-TODOLIST':{
         return state.filter(e=>e.id!==action.idTodolist)
