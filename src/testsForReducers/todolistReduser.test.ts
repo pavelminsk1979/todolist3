@@ -8,14 +8,21 @@ import {
     TodolistReducer
 } from "../reducers/TodolistReducer";
 
-test('correct todolist should be removed',()=>{
-    const todolist1 = v1()
-    const todolist2 = v1()
+let todolist1:string
+let todolist2:string
+let startState:TodolistState[]
 
-    const startState:TodolistState[]= [
-            {id: todolist1, title: 'What to learn', filter: 'all'},
-            {id: todolist2, title: 'What to buy', filter: 'all'}
-        ]
+beforeEach(()=>{
+    todolist1=v1()
+     todolist2=v1()
+     startState= [
+        {id: todolist1, title: 'What to learn', filter: 'all'},
+        {id: todolist2, title: 'What to buy', filter: 'all'}
+    ]
+})
+
+test('correct todolist should be removed',()=>{
+
     const endState=TodolistReducer(startState,removeTodolistAC(todolist1))
 
     expect(endState.length).toBe(1)
@@ -25,13 +32,7 @@ test('correct todolist should be removed',()=>{
 })
 
 test('should be added todolist',()=>{
-    const todolist1 = v1()
-    const todolist2 = v1()
 
-    const startState:TodolistState[]= [
-            {id: todolist1, title: 'What to learn', filter: 'all'},
-            {id: todolist2, title: 'What to buy', filter: 'all'}
-        ]
     const newTitleForTodolist='Опа-опа-опа! Я новенький'
     const endState=TodolistReducer(startState,addedTodolistAC(newTitleForTodolist))
 
@@ -42,13 +43,7 @@ test('should be added todolist',()=>{
 })
 
 test('correct todolist should be change its title',()=>{
-    const todolist1 = v1()
-    const todolist2 = v1()
 
-    const startState:TodolistState[]= [
-            {id: todolist1, title: 'What to learn', filter: 'all'},
-            {id: todolist2, title: 'What to buy', filter: 'all'}
-        ]
     const changeTitleForTodolist='Это название лучше'
     const endState=TodolistReducer(
         startState,
@@ -61,13 +56,7 @@ test('correct todolist should be change its title',()=>{
 })
 
 test('correct todolist should be change  filter',()=>{
-    const todolist1 = v1()
-    const todolist2 = v1()
 
-    const startState:TodolistState[]= [
-            {id: todolist1, title: 'What to learn', filter: 'all'},
-            {id: todolist2, title: 'What to buy', filter: 'all'}
-        ]
     const changeFilterForTodolist='active'
     const endState=TodolistReducer(
         startState,

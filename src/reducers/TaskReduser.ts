@@ -1,5 +1,6 @@
 import {TaskStateType} from "../App";
 import {addedTodolistACType, removeTodolistACType} from "./TodolistReducer";
+import {v1} from "uuid";
 
 type CommonActionType=DeleteTaskType|AddedTaskType|ChangeStatusTaskACType|ChangeTitleTaskACType|addedTodolistACType|removeTodolistACType
 
@@ -50,12 +51,12 @@ export const deleteTaskAC=(idTodol:string,idTask:string)=>{
 
 type AddedTaskType=ReturnType<typeof addedTaskAC>
 
-export const addedTaskAC=(idTodol:string,idTask:string,titleTask:string)=>{
+export const addedTaskAC=(idTodol:string,titleTask:string)=>{
     return{
         type:'ADDED-TASK',
         idTodol,
-        idTask,
-        titleTask
+        idTask:v1(),
+        titleTask,
     }as const
 }
 
