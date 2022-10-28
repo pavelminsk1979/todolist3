@@ -1,4 +1,4 @@
-import React from "react";
+import React, {memo, useCallback} from "react";
 import {TasksType} from "./App";
 import st from './Todolist.module.css'
 import {TemplateForCreatingItem} from "./TemplateForCreatingItem";
@@ -24,7 +24,8 @@ type TodolistType = {
 export type ValueFilterType = 'all' | 'active' | 'completed'
 
 
-export const Todolist = ({title, filterTasksState, removeTask, changeFilter, addedNewTask,changeTaskCheckbox,filterValueActiv,todoID,deleteTololist,editTitleTodolist,editTitleTask}: TodolistType) => {
+export const Todolist =memo( ({title, filterTasksState, removeTask, changeFilter, addedNewTask,changeTaskCheckbox,filterValueActiv,todoID,deleteTololist,editTitleTodolist,editTitleTask}: TodolistType) => {
+    console.log('Todolist')
 
     const editTitleTaskHundler=(idTask: string,editText:string)=>{
         editTitleTask(todoID,idTask,editText)
@@ -46,9 +47,9 @@ export const Todolist = ({title, filterTasksState, removeTask, changeFilter, add
         changeFilter(todoID,valueFilter)
     }
 
-    const addedNewTaskHandler = (textInput: string) => {
+    const addedNewTaskHandler = useCallback((textInput: string) => {
         addedNewTask(todoID,textInput)
-    }
+    },[])
 
     const changeTaskCheckboxHandler = (idTask: string,valueIsDone:boolean) => {
         changeTaskCheckbox(todoID,idTask,valueIsDone)
@@ -131,4 +132,4 @@ export const Todolist = ({title, filterTasksState, removeTask, changeFilter, add
             </div>
         </div>
     )
-}
+})

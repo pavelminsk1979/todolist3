@@ -1,5 +1,5 @@
 import st from "./Todolist.module.css";
-import React, {ChangeEvent, KeyboardEvent, useState} from "react";
+import React, {ChangeEvent, KeyboardEvent, memo, useState} from "react";
 import {BootstrapButton} from "./MaterialUiCommon/FilterButton";
 import {TextField} from "@mui/material";
 
@@ -7,7 +7,8 @@ type TemplateForCreatingItemType={
   callback:(textInput: string)=>void
 }
 
-export const TemplateForCreatingItem = ({callback}:TemplateForCreatingItemType) => {
+export const TemplateForCreatingItem = memo( ({callback}:TemplateForCreatingItemType) => {
+  console.log('TemplateForCreatingItem')
 
   const [textInput, SetTextInput] = useState('')
   const [errorNullText,setErrorNullText]=useState(false)
@@ -22,7 +23,10 @@ export const TemplateForCreatingItem = ({callback}:TemplateForCreatingItemType) 
 
   const creatingTextInputHandler = (event: ChangeEvent<HTMLInputElement>) => {
     SetTextInput(event.currentTarget.value)
-    setErrorNullText(false)
+    if(errorNullText!==false){
+      setErrorNullText(false)
+    }
+
   }
 
   const clickEnterAddedTaskHandler = (event: KeyboardEvent<HTMLInputElement>) => {
@@ -54,4 +58,4 @@ export const TemplateForCreatingItem = ({callback}:TemplateForCreatingItemType) 
           НЕОБХОДИМ И ОБСАЛЮТНО ОБЯЗАТЕЛЕН ТЕКСТ </div>}
       </div>
   )
-}
+})

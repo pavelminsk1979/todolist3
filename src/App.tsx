@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import './App.css';
 import {Todolist, ValueFilterType} from "./Todolist";
 import {TemplateForCreatingItem} from "./TemplateForCreatingItem";
@@ -32,28 +32,6 @@ export type TaskStateType = {
 
 
 function App() {
- /*   const todolist1 = v1()
-    const todolist2 = v1()
-    const [todolists, dispatchTodolists] = useReducer( TodolistReducer,
-        [
-            {id: todolist1, title: 'What to learn', filter: 'all'},
-            {id: todolist2, title: 'What to buy', filter: 'all'}
-        ]
-    )
-
-    const [tasks, dispatchTasks] = useReducer( taskReduser, {
-        [todolist1]: [
-            {id: v1(), title: 'Parol', isDone: true},
-            {id: v1(), title: 'Стишок', isDone: false},
-            {id: v1(), title: 'Phone nomber', isDone: true},
-            {id: v1(), title: 'English and Programming', isDone: false},
-        ],
-        [todolist2]: [
-            {id: v1(), title: 'Торт', isDone: true},
-            {id: v1(), title: 'Спички', isDone: false},
-            {id: v1(), title: 'Вишневую тачку', isDone: true},
-        ],
-    })*/
 
     const  dispatch = useDispatch()
     const tasks = useSelector<StoreStateType,TaskStateType>(
@@ -62,36 +40,37 @@ function App() {
         (state)=>state.todolists)
 
 
-    const editTitleTask = (todoID: string, idTask: string, editText: string) => { dispatch(changeTitleTaskAC(todoID,idTask,editText))}
+    const editTitleTask =useCallback( (todoID: string, idTask: string, editText: string) => { dispatch(changeTitleTaskAC(todoID,idTask,editText))
+    },[])
 
-    const editTitleTodolist = (todoID: string, editText: string) => {
+    const editTitleTodolist =useCallback( (todoID: string, editText: string) => {
         dispatch(changeTitleTodolistAC(todoID,editText))
-    }
+    },[])
 
-    const addedNewTodolist = (textInput: string) => {
+    const addedNewTodolist = useCallback((textInput: string) => {
         dispatch(addedTodolistAC(textInput))
-    }
+    },[])
 
-    const deleteTololist = (todoID: string,) => {
+    const deleteTololist =useCallback( (todoID: string,) => {
         dispatch(removeTodolistAC(todoID))
-    }
+    },[])
 
-    const removeTask = (todoID: string, idTask: string) => {
+    const removeTask =useCallback( (todoID: string, idTask: string) => {
         dispatch(deleteTaskAC(todoID,idTask))
-    }
+    },[])
 
-    const addedNewTask = (todoID: string, textInput: string) => {
+    const addedNewTask =useCallback( (todoID: string, textInput: string) => {
         dispatch(addedTaskAC(todoID,textInput))
-    }
+    },[])
 
-    const changeTaskCheckbox = (todoID: string, idTask: string, valueIsDone: boolean) => {
+    const changeTaskCheckbox =useCallback( (todoID: string, idTask: string, valueIsDone: boolean) => {
         dispatch(changeStatusTaskAC(todoID,idTask,valueIsDone))
-    }
+    },[])
 
 
-    const changeFilterTodolist = (todoID: string, valueFilter: ValueFilterType) => {
+    const changeFilterTodolist =useCallback( (todoID: string, valueFilter: ValueFilterType) => {
         dispatch(changeFilterTodolistAC(todoID,valueFilter))
-    }
+    },[])
 
 
     return (
